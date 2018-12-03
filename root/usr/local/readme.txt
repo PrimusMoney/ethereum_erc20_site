@@ -1,0 +1,1 @@
+git clone repos here of apps that you want to copy to /home/root/usr/local
