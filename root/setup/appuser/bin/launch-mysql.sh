@@ -28,7 +28,7 @@ fi
 
 if [ -z "${MYSQL_DIR+xxx}" ]; then "MYSQL_DIR is not set, setting MYSQL_DIR to /usr/bin"; MYSQL_DIR=/usr/bin; else echo "MYSQL_DIR was set to $MYSQL_DIR"; fi
 if [ -z "${MYSQLD_DIR+xxx}" ]; then "MYSQLD_DIR is not set, setting MYSQLD_DIR to /usr/sbin"; MYSQLD_DIR=/usr/sbin; else echo "MYSQLD_DIR was set to $MYSQLD_DIR"; fi
-if [ -z "${MYSQL_CONF+xxx}" ]; then "MYSQL_CONF is not set, setting MYSQL_CONF to /home/appuser/etc/mysql/my.cnf"; MYSQL_CONF=/home/appuser/etc/mysql/my.cnf; else echo "MYSQL_CONF was set to $MYSQL_CONF"; fi
+if [ -z "${MYSQL_CONF+xxx}" ]; then "MYSQL_CONF is not set, setting MYSQL_CONF to /etc/mysql/my.cnf"; MYSQL_CONF=/etc/mysql/my.cnf; else echo "MYSQL_CONF was set to $MYSQL_CONF"; fi
 
 if [ -z "${MYSQL_DATA_DIR+xxx}" ]; then "MYSQL_DATA_DIR is not set, setting MYSQL_DATA_DIR to /home/appuser/var/lib/mysql/datadir"; MYSQL_DATA_DIR=/home/appuser/var/lib/mysql/datadir; else echo "MYSQL_DATA_DIR was set to $MYSQL_DATA_DIR"; fi
 if [ -z "${MYSQL_TMP_DIR+xxx}" ]; then "MYSQL_TMP_DIR is not set, setting MYSQL_TMP_DIR to /home/appuser/var/lib/mysql/tmp"; MYSQL_TMP_DIR=/home/appuser/var/lib/mysql/tmp; else echo "MYSQL_TMP_DIR was set to $MYSQL_TMP_DIR"; fi

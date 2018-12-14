@@ -1,8 +1,8 @@
 #!/bin/sh
 
-echo "*****************************"
-echo "* Executing launch-nginx.sh *"
-echo "*****************************"
+echo "*************************"
+echo "* Executing launcher.sh *"
+echo "*************************"
 
 ################################ exec_env.sh ##########################################
 current_script_path=$(readlink -f "$0")
@@ -26,9 +26,40 @@ else
 fi
 #######################################################################################
 
-if [ -z "${NGINX_DIR+xxx}" ]; then "NGINX_DIR is not set, setting NGINX_DIR to /usr/sbin"; NGINX_DIR=/usr/sbin; else echo "NGINX_DIR was set to $NGINX_DIR"; fi
-if [ -z "${NGINX_CONF+xxx}" ]; then "NGINX_CONF is not set, setting NGINX_CONF to /etc/nginx/nginx.conf"; NGINX_CONF=/etc/nginx/nginx.conf; else echo "NGINX_CONF was set to $NGINX_CONF"; fi
+
+export NPM_DIR=/usr/local/node/bin
+export	PATH=$NPM_DIR:$PATH
 
 
-$NGINX_DIR/nginx -c $NGINX_CONF
-#$NGINX_DIR/nginx -c $NGINX_CONF -g "pid /tmp/nginx.pid; error_log $NGINX_ERROR_LOG_DIR/error.log;" &
+#
+# container services
+#
+
+# HTTP entry point
+# Apache or Nginx
+
+# apache	
+#echo "starting apache"
+#$CURRENT_SCRIPT_DIR/start-apache24.sh &
+	
+# nginx	
+echo "starting nginx"
+$CURRENT_SCRIPT_DIR/start-nginx.sh &
+	
+
+# DATABASE
+
+# mysql
+if [ -z $MYSQL_START ] || [ $MYSQL_START != 0 ]; then
+echo "starting mysql"
+$CURRENT_SCRIPT_DIR/start-mysql.sh &
+fi
+
+# ETHEREUM BLOCKCHAIN
+
+# geth	
+if [ $GETH_START != 0 ]; then
+echo "starting geth"
+$CURRENT_SCRIPT_DIR/start-geth.sh &
+fi
+

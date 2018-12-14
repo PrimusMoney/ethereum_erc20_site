@@ -1,8 +1,8 @@
 #!/bin/sh
 
-echo "*****************************"
-echo "* Executing launch-nginx.sh *"
-echo "*****************************"
+echo "*******************************"
+echo "* Executing local launcher.sh *"
+echo "*******************************"
 
 ################################ exec_env.sh ##########################################
 current_script_path=$(readlink -f "$0")
@@ -26,9 +26,36 @@ else
 fi
 #######################################################################################
 
-if [ -z "${NGINX_DIR+xxx}" ]; then "NGINX_DIR is not set, setting NGINX_DIR to /usr/sbin"; NGINX_DIR=/usr/sbin; else echo "NGINX_DIR was set to $NGINX_DIR"; fi
-if [ -z "${NGINX_CONF+xxx}" ]; then "NGINX_CONF is not set, setting NGINX_CONF to /etc/nginx/nginx.conf"; NGINX_CONF=/etc/nginx/nginx.conf; else echo "NGINX_CONF was set to $NGINX_CONF"; fi
+#
+# container services
+#
 
 
-$NGINX_DIR/nginx -c $NGINX_CONF
-#$NGINX_DIR/nginx -c $NGINX_CONF -g "pid /tmp/nginx.pid; error_log $NGINX_ERROR_LOG_DIR/error.log;" &
+# ETHEREUM BLOCKCHAIN
+
+# geth	
+if [ $GETH_START != 0 ]; then
+echo "starting geth"
+$LOCAL_SCRIPT_DIR/start-geth.sh &
+fi
+
+
+
+#	
+# appuser services
+#
+echo "starting ethereum_reader_server"
+$LOCAL_SCRIPT_DIR/start-ethereum-reader.sh 
+
+echo "starting ethereum_securities_webapp"
+$LOCAL_SCRIPT_DIR/start-ethereum-webapp.sh 
+
+#
+# loop
+#	
+if [ -z "${SHELL+xxx}" ]; then echo "SHELL is not set, setting SHELL to /bin/sh"; SHELL=/bin/sh; else echo "SHELL was set to $SHELL"; fi
+	
+echo "starting $SHELL"
+/bin/sh
+#$SHELL
+

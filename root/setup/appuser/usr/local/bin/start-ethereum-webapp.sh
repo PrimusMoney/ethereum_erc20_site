@@ -1,8 +1,8 @@
 #!/bin/sh
 
-echo "*****************************"
-echo "* Executing launch-nginx.sh *"
-echo "*****************************"
+echo "**************************************"
+echo "* Executing start-ethereum-reader.sh *"
+echo "**************************************"
 
 ################################ exec_env.sh ##########################################
 current_script_path=$(readlink -f "$0")
@@ -26,9 +26,7 @@ else
 fi
 #######################################################################################
 
-if [ -z "${NGINX_DIR+xxx}" ]; then "NGINX_DIR is not set, setting NGINX_DIR to /usr/sbin"; NGINX_DIR=/usr/sbin; else echo "NGINX_DIR was set to $NGINX_DIR"; fi
-if [ -z "${NGINX_CONF+xxx}" ]; then "NGINX_CONF is not set, setting NGINX_CONF to /etc/nginx/nginx.conf"; NGINX_CONF=/etc/nginx/nginx.conf; else echo "NGINX_CONF was set to $NGINX_CONF"; fi
 
 
-$NGINX_DIR/nginx -c $NGINX_CONF
-#$NGINX_DIR/nginx -c $NGINX_CONF -g "pid /tmp/nginx.pid; error_log $NGINX_ERROR_LOG_DIR/error.log;" &
+/usr/bin/tmux new-session -d -s ethereum-webapp "$LOCAL_SCRIPT_DIR/launch-ethereum-webapp.sh"
+

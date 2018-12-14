@@ -16,14 +16,30 @@ else
 	echo "USERNAME was set to $USERNAME"; 
 	
 	# setting userid, groupname and groupid if necessary
-	if [ -z "${USERID+xxx}" ]; then echo "USERID is not setting USERID to 1000"; USERID=1000 else echo "USERID was set to $USERID"; fi
-	if [ -z "${GROUPNAME+xxx}" ]; then echo "GROUPNAME is not set, setting GROUPNAME to $USERNAME"; GROUPNAME=$USERNAME else echo "GROUPNAME was set to $GROUPNAME"; fi
-	if [ -z "${GROUPID+xxx}" ]; then echo "GROUPID is not set, setting GROUPID to $USERID"; GROUPID=$USERID else echo "GROUPID was set to $GROUPID"; fi
+	if [ -z "${USERID+xxx}" ]; then echo "USERID is not setting USERID to 1000"; USERID=1000; else echo "USERID was set to $USERID"; fi
+	if [ -z "${GROUPNAME+xxx}" ]; then echo "GROUPNAME is not set, setting GROUPNAME to $USERNAME"; GROUPNAME=$USERNAME; else echo "GROUPNAME was set to $GROUPNAME"; fi
+	if [ -z "${GROUPID+xxx}" ]; then echo "GROUPID is not set, setting GROUPID to $USERID"; GROUPID=$USERID; else echo "GROUPID was set to $GROUPID"; fi
 	
 fi
 
 if [ -z "${LAUNCHER+xxx}" ]; then echo "LAUNCHER is not set, setting LAUNCHER to /bin/sh"; LAUNCHER=/bin/sh; else echo "LAUNCHER was set to $LAUNCHER"; fi 
 
+# start (as root)
+if [ ! -z "${STARTER+xxx}" ]; 
+ then 
+ 	
+ 	echo "*****************************";
+ 	echo "* executing STARTER as root *";
+	echo "*****************************";
+  	echo "STARTER is set to "$STARTER;
+ 	echo "It is recommended that programs called are executed as a non-root user (e.g. daemon, mysql,..)";
+ 	
+ 	$STARTER;
+ else
+ 	echo "no STARTER set";
+fi
+
+# launch (as USERID if set)
 if [ "$(id -u)" != "0" ]; then
 	echo "This container is run as $UID" 1>&2
 	

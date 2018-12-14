@@ -1,8 +1,8 @@
 #!/bin/sh
 
-echo "*****************************"
-echo "* Executing launch-nginx.sh *"
-echo "*****************************"
+echo "****************************"
+echo "* Executing launch-geth.sh *"
+echo "****************************"
 
 ################################ exec_env.sh ##########################################
 current_script_path=$(readlink -f "$0")
@@ -26,9 +26,9 @@ else
 fi
 #######################################################################################
 
-if [ -z "${NGINX_DIR+xxx}" ]; then "NGINX_DIR is not set, setting NGINX_DIR to /usr/sbin"; NGINX_DIR=/usr/sbin; else echo "NGINX_DIR was set to $NGINX_DIR"; fi
-if [ -z "${NGINX_CONF+xxx}" ]; then "NGINX_CONF is not set, setting NGINX_CONF to /etc/nginx/nginx.conf"; NGINX_CONF=/etc/nginx/nginx.conf; else echo "NGINX_CONF was set to $NGINX_CONF"; fi
 
+if [ -z "${GETH_PATH+xxx}" ]; then echo "GETH_PATH is not set, setting GETH_PATH=/usr/local/geth/bin/geth"; GETH_PATH=/usr/local/geth/bin/geth; else echo "GETH_PATH was set to $GETH_PATH"; fi
+if [ -z "${GETH_DATADIR+xxx}" ]; then echo "GETH_DATADIR is not set, setting GETH_DATADIR=/home/appuser/var/lib/geth/datadir"; GETH_DATADIR=/home/appuser/var/lib/geth/datadir; else echo "GETH_DATADIR was set to $GETH_DATADIR"; fi
+if [ -z "${GETH_OPTIONS+xxx}" ]; then echo "GETH_OPTIONS is not set, setting GETH_OPTIONS= --rpc console"; GETH_OPTIONS="--rpc console"; else echo "GETH_OPTIONS was set to $GETH_OPTIONS"; fi
 
-$NGINX_DIR/nginx -c $NGINX_CONF
-#$NGINX_DIR/nginx -c $NGINX_CONF -g "pid /tmp/nginx.pid; error_log $NGINX_ERROR_LOG_DIR/error.log;" &
+$GETH_PATH --datadir $GETH_DATADIR $GETH_OPTIONS
