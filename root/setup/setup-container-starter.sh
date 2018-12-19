@@ -9,7 +9,7 @@ USERID=${USERID:-1000}
 read -p" Please enter the port exposed for accessing the webapp (default 8000):" WEB_PORT
 WEB_PORT=${WEB_PORT:-8000}
 
-read -p "Please enter the port exposed for accessing the internal mysql server (default 3306, 0 not exposed):" MYSQL_PORT
+read -p "Please enter the port exposed for accessing the internal mysql server (default 3306, 0 not exposed, -1 do not start):" MYSQL_PORT
 MYSQL_PORT=${MYSQL_PORT:-3306}
 
 read -p "Please enter the port exposed for accessing the internal geth node (default 30303, 0 not exposed, -1 do not start):" GETH_PORT
@@ -39,7 +39,7 @@ printf "\n" >> /homedir/start-container.sh
 printf "    -p \$WEB_PORT:8080 \\" >> /homedir/start-container.sh
 printf "\n" >> /homedir/start-container.sh
 
-if [ $MYSQL_PORT != 0 ]; then
+if [ $MYSQL_PORT != 0 ] && [ $MYSQL_PORT != -1 ]; then
 printf "    -p \$MYSQL_PORT:3306 \\" >> /homedir/start-container.sh
 printf "\n" >> /homedir/start-container.sh
 fi

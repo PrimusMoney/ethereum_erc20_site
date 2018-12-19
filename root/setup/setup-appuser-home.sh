@@ -82,6 +82,11 @@ printf "NGINX_ERROR_LOG_DIR=/home/appuser/var/lib/nginx/logs/error.log\n" >> /ho
 printf "\n" >> /homedir/appuser/launch.config
 
 printf "# mysql\n" >> /homedir/appuser/launch.config
+if [ $MYSQL_PORT != -1 ]; then
+printf "MYSQL_START=1\n" >> /homedir/appuser/launch.config
+else
+printf "MYSQL_START=0\n" >> /homedir/appuser/launch.config
+fi
 printf "MYSQL_DIR=/usr/bin\n" >> /homedir/appuser/launch.config
 printf "MYSQLD_DIR=/usr/sbin\n" >> /homedir/appuser/launch.config
 printf "MYSQL_DATA_DIR=/home/appuser/var/lib/mysql/datadir\n" >> /homedir/appuser/launch.config
@@ -101,6 +106,7 @@ else
 printf "GETH_START=0\n" >> /homedir/appuser/launch.config
 fi
 printf "GETH_PATH=/usr/local/geth/bin/geth\n" >> /homedir/appuser/launch.config
+printf "GETH_USER=geth\n" >> /homedir/appuser/launch.config
 printf "GETH_DATADIR=/home/appuser/var/lib/geth/datadir\n" >> /homedir/appuser/launch.config
 printf "GETH_OPTIONS=\"--config /home/appuser/etc/geth/config.toml\"\n" >> /homedir/appuser/launch.config
 printf "\n" >> /homedir/appuser/launch.config
@@ -124,3 +130,6 @@ chown -R $USERID:$USERID /homedir/appuser
 # give ownership of /home/appuser/var/lib/mysql directories to mysql
 touch /homedir/appuser/var/lib/mysql/log/mysql.log
 chown -R mysql:mysql /homedir/appuser/var/lib/mysql
+
+# give ownership of /home/appuser/var/lib/geth directories to geth
+chown -R geth:geth /homedir/appuser/var/lib/geth

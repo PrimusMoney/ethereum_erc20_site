@@ -4,8 +4,11 @@ MAINTAINER PrimusMoney <contact@primusmoney.com>
 
 # system users and groups (id < 999)
 RUN groupadd -g 201 nginx &&  useradd -g nginx -u 201 -c "NGINX Server" nginx
+RUN groupadd -g 205 geth &&  useradd -g geth -u 205 -c "GETH Server" geth
 
+#
 # L = Linux
+#
 
 # ubuntu utils
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
@@ -18,7 +21,8 @@ RUN apt-get update && \
 	apt-get install -y nano && \
 	apt-get install -y bash && \
 	apt-get install -y sudo && \
-	apt-get install -y tmux
+	apt-get install -y tmux && \
+	apt install net-tools 
 
 RUN apt-get update && \
 	apt-get install -y curl && \
@@ -29,7 +33,10 @@ RUN apt-get update && \
 	apt-get install -y libzmq3-dev
 
 
+#
 # N = nginx
+#
+
 RUN apt-get update && \
 	apt-get install -y nginx
 
@@ -40,7 +47,9 @@ RUN echo 'mysql-server mysql-server/root_password password rootpass' | debconf-s
 	apt-get install -y mysql-server
 
 
+#
 # N = node js
+#
 
 # python (for npm install)
 RUN apt-get update && \
@@ -63,9 +72,17 @@ ENV	PATH=${NPM_DIR}:${PATH}
 RUN rm -rf /root/tmp
 
 
+#
+# G = geth
+#
 
+COPY ./middleware/geth /usr/local/geth/bin/geth
+
+
+
+#
 # W = Web3app node
-
+#
 
 # apps copy root/bin root/etc root/usr and root/usr/local folders
 COPY ./root/ /home/root/
@@ -94,8 +111,9 @@ RUN cd /home/root/usr/local/ethereum_webapp && \
 	npm install --unsafe-perm 
 	
 	
+#
 # E = ERC20 dapp
-
+#
 
 # apps copy ethereum_webapp
 RUN git clone https://github.com/p2pmoney-org/ethereum_erc20_dapp /home/root/usr/local/ethereum_dapp
