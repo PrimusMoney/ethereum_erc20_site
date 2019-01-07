@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM ubuntu:16.04
 
 MAINTAINER PrimusMoney <contact@primusmoney.com>
 
@@ -78,7 +78,7 @@ RUN rm -rf /root/tmp
 
 COPY ./middleware/geth /usr/local/geth/bin/geth
 
-
+RUN chmod 775 /usr/local/geth/bin/geth
 
 #
 # W = Web3app node
@@ -92,22 +92,19 @@ RUN chmod 775 /home/root/bin/*.sh && \
 	chmod 775 /home/root/setup/*.sh
 	
 # apps copy ethereum_reader_server
-RUN git clone https://github.com/p2pmoney-org/ethereum_reader_server /home/root/usr/local/ethereum_reader_server
-
 # run npm install
 # (--unsafe-perm because of "gyp WARN EACCES attempting to reinstall using temporary dev dir")
-RUN cd /home/root/usr/local/ethereum_reader_server && \
+RUN git clone https://github.com/p2pmoney-org/ethereum_reader_server /home/root/usr/local/ethereum_reader_server && \
+	cd /home/root/usr/local/ethereum_reader_server && \
 	npm install --unsafe-perm 
 
 	
 
 # apps copy ethereum_webapp
-RUN git clone https://github.com/p2pmoney-org/ethereum_webapp /home/root/usr/local/ethereum_webapp
-#COPY ./root/usr/local/ethereum_webapp /home/root/usr/local/ethereum_webapp
-
 # run npm install
 # (--unsafe-perm because of "gyp WARN EACCES attempting to reinstall using temporary dev dir")
-RUN cd /home/root/usr/local/ethereum_webapp && \
+RUN git clone https://github.com/p2pmoney-org/ethereum_webapp /home/root/usr/local/ethereum_webapp && \
+	cd /home/root/usr/local/ethereum_webapp && \
 	npm install --unsafe-perm 
 	
 	
@@ -117,7 +114,6 @@ RUN cd /home/root/usr/local/ethereum_webapp && \
 
 # apps copy ethereum_webapp
 RUN git clone https://github.com/p2pmoney-org/ethereum_erc20_dapp /home/root/usr/local/ethereum_dapp
-#COPY ./root/usr/local/ethereum_dapp /home/root/usr/local/ethereum_dapp
 
 
 # CMD start command
