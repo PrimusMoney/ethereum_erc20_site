@@ -41,7 +41,8 @@ mkdir /homedir/appuser/var/lib/nginx
 mkdir /homedir/appuser/var/lib/nginx/logs
 
 mkdir /homedir/appuser/var/lib/geth
-mkdir /homedir/appuser/var/lib/geth/datadir
+mkdir /homedir/appuser/var/lib/geth/datadir-mainnet
+mkdir /homedir/appuser/var/lib/geth/datadir-rinkeby
 
 # apps
 
@@ -76,6 +77,11 @@ printf "SHELL=/bin/bash\n" >> /homedir/appuser/launch.config
 printf "\n" >> /homedir/appuser/launch.config
 
 printf "# nginx\n" >> /homedir/appuser/launch.config
+if [ $WEB_PORT != -1 ]; then
+printf "NGINX_START=1\n" >> /homedir/appuser/launch.config
+else
+printf "NGINX_START=0\n" >> /homedir/appuser/launch.config
+fi	
 printf "NGINX_DIR=/usr/sbin\n" >> /homedir/appuser/launch.config
 printf "NGINX_CONF=/home/appuser/etc/nginx/nginx.conf\n" >> /homedir/appuser/launch.config
 printf "NGINX_ERROR_LOG_DIR=/home/appuser/var/lib/nginx/logs/error.log\n" >> /homedir/appuser/launch.config
@@ -107,8 +113,8 @@ printf "GETH_START=0\n" >> /homedir/appuser/launch.config
 fi
 printf "GETH_PATH=/usr/local/geth/bin/geth\n" >> /homedir/appuser/launch.config
 printf "GETH_USER=geth\n" >> /homedir/appuser/launch.config
-printf "GETH_DATADIR=/home/appuser/var/lib/geth/datadir\n" >> /homedir/appuser/launch.config
-printf "GETH_OPTIONS=\"--config /home/appuser/etc/geth/config.toml\"\n" >> /homedir/appuser/launch.config
+#printf "GETH_DATADIR=/home/appuser/var/lib/geth/datadir\n" >> /homedir/appuser/launch.config
+printf "GETH_OPTIONS=\"console --rpc --config /home/appuser/etc/geth/config.toml\"\n" >> /homedir/appuser/launch.config
 printf "\n" >> /homedir/appuser/launch.config
 
 printf "# ethereum_reader_server\n" >> /homedir/appuser/launch.config
@@ -133,3 +139,7 @@ chown -R mysql:mysql /homedir/appuser/var/lib/mysql
 
 # give ownership of /home/appuser/var/lib/geth directories to geth
 chown -R geth:geth /homedir/appuser/var/lib/geth
+
+# initialize networks with their genesis block
+echo "Initializing rinkeby genesis block."
+su geth -c "/usr/local/geth/bin/geth --datadir=/homedir/appuser/var/lib/geth/datadir-rinkeby --verbosity \"0\" init /homedir/appuser/etc/geth/rinkeby.json"

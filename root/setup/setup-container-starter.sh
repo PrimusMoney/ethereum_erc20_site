@@ -6,7 +6,7 @@ cd /home
 read -p "Please enter userid to run within container (default 1000):" USERID
 USERID=${USERID:-1000}
 
-read -p" Please enter the port exposed for accessing the webapp (default 8000):" WEB_PORT
+read -p" Please enter the port exposed for accessing the webapp (default 8000, -1 do not start):" WEB_PORT
 WEB_PORT=${WEB_PORT:-8000}
 
 read -p "Please enter the port exposed for accessing the internal mysql server (default 3306, 0 not exposed, -1 do not start):" MYSQL_PORT
@@ -36,8 +36,10 @@ printf "\n" >> /homedir/start-container.sh
 printf "docker run -i -t \\" >> /homedir/start-container.sh
 printf "\n" >> /homedir/start-container.sh
 
+if [ $WEB_PORT != 0 ] && [ $WEB_PORT != -1 ]; then
 printf "    -p \$WEB_PORT:8080 \\" >> /homedir/start-container.sh
 printf "\n" >> /homedir/start-container.sh
+fi
 
 if [ $MYSQL_PORT != 0 ] && [ $MYSQL_PORT != -1 ]; then
 printf "    -p \$MYSQL_PORT:3306 \\" >> /homedir/start-container.sh

@@ -4,7 +4,7 @@ MAINTAINER PrimusMoney <contact@primusmoney.com>
 
 # system users and groups (id < 999)
 RUN groupadd -g 201 nginx &&  useradd -g nginx -u 201 -c "NGINX Server" nginx
-RUN groupadd -g 205 geth &&  useradd -g geth -u 205 -c "GETH Server" geth
+RUN groupadd -g 205 geth &&  useradd -m -d /home/geth -g geth -u 205 -c "GETH Server" geth
 
 #
 # L = Linux
