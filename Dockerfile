@@ -2,6 +2,15 @@ FROM ubuntu:16.04
 
 MAINTAINER PrimusMoney <contact@primusmoney.com>
 
+# container primusmoney/ethereum_erc20_site
+# to build a specific combination of releases
+# replace master by the tag of the corresponding
+# release (e.g. 0.11.0) then build image with
+# a specific tag (e.g. "docker build -t primusmoney/ethereum_erc20_site:0.11.0")
+ARG ethereum_erc20_dapp_tag=master
+ARG ethereum_webapp_tag=master
+
+
 # system users and groups (id < 999)
 RUN groupadd -g 201 nginx &&  useradd -g nginx -u 201 -c "NGINX Server" nginx
 RUN groupadd -g 205 geth &&  useradd -m -d /home/geth -g geth -u 205 -c "GETH Server" geth
@@ -103,7 +112,7 @@ RUN git clone https://github.com/p2pmoney-org/ethereum_reader_server /home/root/
 # apps copy ethereum_webapp
 # run npm install
 # (--unsafe-perm because of "gyp WARN EACCES attempting to reinstall using temporary dev dir")
-RUN git clone https://github.com/p2pmoney-org/ethereum_webapp /home/root/usr/local/ethereum_webapp && \
+RUN git clone https://github.com/p2pmoney-org/ethereum_webapp /home/root/usr/local/ethereum_webapp --branch $ethereum_webapp_tag && \
 	cd /home/root/usr/local/ethereum_webapp && \
 	npm install --unsafe-perm 
 	
@@ -113,7 +122,7 @@ RUN git clone https://github.com/p2pmoney-org/ethereum_webapp /home/root/usr/loc
 #
 
 # apps copy ethereum_webapp
-RUN git clone https://github.com/p2pmoney-org/ethereum_erc20_dapp /home/root/usr/local/ethereum_dapp
+RUN git clone https://github.com/p2pmoney-org/ethereum_erc20_dapp /home/root/usr/local/ethereum_dapp --branch $ethereum_erc20_dapp_tag
 
 
 # CMD start command
