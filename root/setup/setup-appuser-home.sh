@@ -39,6 +39,8 @@ mkdir /homedir/appuser/var/lib/mysql/tmp
 
 mkdir /homedir/appuser/var/lib/nginx
 mkdir /homedir/appuser/var/lib/nginx/logs
+mkdir /homedir/appuser/var/lib/nginx/www
+cp -R /home/root/setup/appuser/var/lib/nginx/www/* /homedir/appuser/var/lib/nginx/www
 
 mkdir /homedir/appuser/var/lib/geth
 mkdir /homedir/appuser/var/lib/geth/datadir-mainnet

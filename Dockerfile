@@ -93,7 +93,7 @@ RUN chmod 775 /usr/local/geth/bin/geth
 # W = Web3app node
 #
 
-# apps copy root/bin root/etc root/usr and root/usr/local folders
+# apps copy root/bin, root/etc, root/usr, and root/var folders
 COPY ./root/ /home/root/
 
 # make shell files executable
@@ -123,6 +123,7 @@ RUN git clone https://github.com/p2pmoney-org/ethereum_webapp /home/root/usr/loc
 
 # apps copy ethereum_webapp
 RUN git clone https://github.com/p2pmoney-org/ethereum_erc20_dapp /home/root/usr/local/ethereum_dapp --branch $ethereum_erc20_dapp_tag
+
 
 
 # CMD start command
