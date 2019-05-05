@@ -9,6 +9,7 @@ MAINTAINER PrimusMoney <contact@primusmoney.com>
 # a specific tag (e.g. "docker build -t primusmoney/ethereum_erc20_site:0.11.0")
 ARG ethereum_erc20_dapp_tag=master
 ARG ethereum_webapp_tag=master
+ARG ethereum_reader_tag=v0.1.2
 
 
 # system users and groups (id < 999)
@@ -67,10 +68,10 @@ RUN apt-get update && \
 	ln -s /usr/bin/python2.7 /usr/bin/python
 
 # node js
-COPY ./middleware/node-v8.9.1-linux-x64.tar.gz /root/tmp/node-v8.9.1-linux-x64.tar.gz
+COPY ./middleware/node-v10.15.3-linux-x64.tar.xz /root/tmp/node-v10.15.3-linux-x64.tar.xz
 
-RUN tar -xf /root/tmp/node-v8.9.1-linux-x64.tar.gz --directory=/root/tmp/ && \
-	mv /root/tmp/node-v8.9.1-linux-x64/ /usr/local/node/
+RUN tar -xf /root/tmp/node-v10.15.3-linux-x64.tar.xz --directory=/root/tmp/ && \
+	mv /root/tmp/node-v10.15.3-linux-x64/ /usr/local/node/
 
 
 ENV NPM_DIR=/usr/local/node/bin
@@ -85,7 +86,7 @@ RUN rm -rf /root/tmp
 # G = geth
 #
 
-COPY ./middleware/geth /usr/local/geth/bin/geth
+COPY ./middleware/geth-1-8-27 /usr/local/geth/bin/geth
 
 RUN chmod 775 /usr/local/geth/bin/geth
 
@@ -103,7 +104,7 @@ RUN chmod 775 /home/root/bin/*.sh && \
 # apps copy ethereum_reader_server
 # run npm install
 # (--unsafe-perm because of "gyp WARN EACCES attempting to reinstall using temporary dev dir")
-RUN git clone https://github.com/p2pmoney-org/ethereum_reader_server /home/root/usr/local/ethereum_reader_server && \
+RUN git clone https://github.com/p2pmoney-org/ethereum_reader_server /home/root/usr/local/ethereum_reader_server --branch $ethereum_reader_tag && \
 	cd /home/root/usr/local/ethereum_reader_server && \
 	npm install --unsafe-perm 
 
