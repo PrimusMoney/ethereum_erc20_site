@@ -7,8 +7,8 @@ MAINTAINER PrimusMoney <contact@primusmoney.com>
 # replace master by the tag of the corresponding
 # release (e.g. 0.11.0) then build image with
 # a specific tag (e.g. "docker build -t primusmoney/ethereum_erc20_site:0.11.0")
-ARG ethereum_erc20_dapp_tag=0.11.0
-ARG ethereum_webapp_tag=0.11.0
+ARG ethereum_erc20_dapp_tag=0.11.1
+ARG ethereum_webapp_tag=0.11.1
 ARG ethereum_reader_tag=v0.1.2
 
 
@@ -114,7 +114,8 @@ RUN git clone https://github.com/p2pmoney-org/ethereum_reader_server /home/root/
 # run npm install
 # (--unsafe-perm because of "gyp WARN EACCES attempting to reinstall using temporary dev dir")
 RUN git clone https://github.com/p2pmoney-org/ethereum_webapp /home/root/usr/local/ethereum_webapp --branch $ethereum_webapp_tag && \
-	cd /home/root/usr/local/ethereum_webapp && \
+	cd /home/root/usr/local/ethereum_webapp  && \
+	echo "\n\nConstants.push('lifecycle', {eventname: 'webapp checkout', time:$(date +%s)*1000});\n" >> /home/root/usr/local/ethereum_webapp/server/includes/common/constants.js && \
 	npm install --unsafe-perm 
 	
 	
@@ -122,9 +123,10 @@ RUN git clone https://github.com/p2pmoney-org/ethereum_webapp /home/root/usr/loc
 # E = ERC20 dapp
 #
 
-# apps copy ethereum_webapp
-RUN git clone https://github.com/p2pmoney-org/ethereum_erc20_dapp /home/root/usr/local/ethereum_dapp --branch $ethereum_erc20_dapp_tag
-
+# apps copy ethereum_dapp
+# tag checkout time in constant.js
+RUN git clone https://github.com/p2pmoney-org/ethereum_erc20_dapp /home/root/usr/local/ethereum_dapp --branch $ethereum_erc20_dapp_tag && \
+	echo "\nConstants.push('lifecycle', {eventname: 'app checkout', time:$(date +%s)*1000});\n" >> /home/root/usr/local/ethereum_dapp/app/js/src/constants.js
 
 
 # CMD start command
