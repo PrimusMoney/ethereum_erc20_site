@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo "**************************************"
-echo "* Executing start-ethereum-reader.sh *"
+echo "* Executing start-ethereum-webapp.sh *"
 echo "**************************************"
 
 ################################ exec_env.sh ##########################################

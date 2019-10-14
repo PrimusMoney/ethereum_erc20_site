@@ -1,8 +1,8 @@
 #!/bin/sh
 
 echo "***************************************"
-echo "* Executing launch-ethereum-reader.sh *"
-echo "**************************************"
+echo "* Executing launch-ethereum-webapp.sh *"
+echo "***************************************"
 
 ################################ exec_env.sh ##########################################
 current_script_path=$(readlink -f "$0")
