@@ -8,7 +8,7 @@ MAINTAINER PrimusMoney <contact@primusmoney.com>
 # release (e.g. 0.11.0) then build image with
 # a specific tag (e.g. "docker build -t primusmoney/ethereum_erc20_site:0.11.0")
 ARG ethereum_erc20_dapp_tag=0.30.10
-ARG ethereum_webapp_tag=0.30.11
+ARG ethereum_webapp_tag=0.30.15
 ARG ethereum_reader_tag=v0.1.2
 
 
@@ -104,9 +104,9 @@ RUN chmod 775 /home/root/bin/*.sh && \
 # apps copy ethereum_reader_server
 # run npm install
 # (--unsafe-perm because of "gyp WARN EACCES attempting to reinstall using temporary dev dir")
-RUN git clone https://github.com/p2pmoney-org/ethereum_reader_server /home/root/usr/local/ethereum_reader_server --branch $ethereum_reader_tag && \
-	cd /home/root/usr/local/ethereum_reader_server && \
-	npm install --unsafe-perm 
+#RUN git clone https://github.com/p2pmoney-org/ethereum_reader_server /home/root/usr/local/ethereum_reader_server --branch $ethereum_reader_tag && \
+#	cd /home/root/usr/local/ethereum_reader_server && \
+#	npm install --unsafe-perm 
 
 	
 
