@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 MAINTAINER PrimusMoney <contact@primusmoney.com>
 
@@ -8,7 +8,7 @@ MAINTAINER PrimusMoney <contact@primusmoney.com>
 # release (e.g. 0.11.0) then build image with
 # a specific tag (e.g. "docker build -t primusmoney/ethereum_erc20_site:0.11.0")
 ARG ethereum_erc20_dapp_tag=0.30.10
-ARG ethereum_webapp_tag=0.30.15
+ARG ethereum_webapp_tag=0.30.16
 ARG ethereum_reader_tag=v0.1.2
 
 
@@ -68,10 +68,10 @@ RUN apt-get update && \
 	ln -s /usr/bin/python2.7 /usr/bin/python
 
 # node js
-COPY ./middleware/node-v10.15.3-linux-x64.tar.xz /root/tmp/node-v10.15.3-linux-x64.tar.xz
+COPY ./middleware/node-v16.14.2-linux-x64.tar.xz /root/tmp/node-v16.14.2-linux-x64.tar.xz
 
-RUN tar -xf /root/tmp/node-v10.15.3-linux-x64.tar.xz --directory=/root/tmp/ && \
-	mv /root/tmp/node-v10.15.3-linux-x64/ /usr/local/node/
+RUN tar -xf /root/tmp/node-v16.14.2-linux-x64.tar.xz --directory=/root/tmp/ && \
+	mv /root/tmp/node-v16.14.2-linux-x64/ /usr/local/node/
 
 
 ENV NPM_DIR=/usr/local/node/bin
